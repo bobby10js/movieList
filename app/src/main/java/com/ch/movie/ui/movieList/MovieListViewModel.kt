@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.ch.movie.api.Repository
 import com.ch.movie.model.Movie
 import com.ch.movie.model.Movies
-import com.ch.movie.model.TvShow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 

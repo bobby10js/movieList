@@ -1,4 +1,4 @@
-package com.ch.movie.ui.movieDetailedView
+package com.ch.movie.ui.tvShowDetailedView
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

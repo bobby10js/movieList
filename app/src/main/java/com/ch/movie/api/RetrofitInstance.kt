@@ -11,7 +11,7 @@ import com.google.gson.Gson
 
 
 object RetrofitInstance {
-    var gsonDate: Gson = GsonBuilder()
+    private var gsonDate: Gson = GsonBuilder()
         .setDateFormat("YYYY-MM-DD")
         .create()
     private val retrofit by lazy {

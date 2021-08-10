@@ -1,6 +1,5 @@
 package com.ch.movie.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,20 +7,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ch.movie.model.Movie
 import com.ch.movie.R
+import com.ch.movie.model.Movie
 
 class MovieListAdapter(private var movieList: ArrayList<Movie>, private var  thumbNailActions: ThumbNailActions): RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+
         val view = LayoutInflater.from(parent.context).inflate(R.layout.thumbnail_card, parent, false)
+        val width = (parent.width * 0.34).toInt()
+        val height = (width*1.41).toInt()
+        view.layoutParams = ViewGroup.LayoutParams(width,height)
+
         return ViewHolder(view)
     }
 
     fun pushToMovieList(movieList: Array<Movie>){
         for(movie in movieList) {
             this.movieList.add(movie)
-            Log.i("response",movie.id.toString()+"|"+movie.title)
         }
         notifyDataSetChanged()
 

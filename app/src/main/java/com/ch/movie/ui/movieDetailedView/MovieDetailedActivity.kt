@@ -2,7 +2,6 @@ package com.ch.movie.ui.movieDetailedView
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +20,7 @@ class MovieDetailedActivity : AppCompatActivity() {
 private lateinit var binding: ActivityMovieDetailedBinding
     var id:Int = 0
     var movieList: ArrayList<Movie> = ArrayList()
-    var castList: ArrayList<Cast> = ArrayList()
+    private var castList: ArrayList<Cast> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +29,7 @@ private lateinit var binding: ActivityMovieDetailedBinding
         binding = ActivityMovieDetailedBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar))
-        binding.fab.setOnClickListener { view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        binding.fab.setOnClickListener { view -> Snackbar.make(view, "Added to Watch Later", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
 
@@ -58,26 +57,16 @@ private lateinit var binding: ActivityMovieDetailedBinding
             binding.title.text = response.title
             binding.date.text = "${(response.release_date.year+1900)} · ${response.genres?.joinToString {it.name }} · ${response.runtime} min"
             binding.ratingTextView.text = response.vote_average.toString()
-            Log.i("response",response.release_date.toString()+"|"+response.vote_average/2)
             binding.overViewTxtView.text = response.overview
             binding.ratingBar.rating= response.vote_average/2
         })
 
-        val castListAdapter = CastListAdapter(castList, object : ThumbNailActions {
-            override fun onClick(id: Int) {
-                similarActivityIntent.putExtra("id", id)
-                startActivity(similarActivityIntent)
-            }
-        })
+        val castListAdapter = CastListAdapter(castList)
         binding.castListRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.castListRecyclerView.adapter = castListAdapter
         movieDetailedViewModel.getCastDetails().observe(this,{ response ->
                         castListAdapter.pushToCastList(response.cast)
 
-            for (cast:Cast in response.cast) {
-
-    Log.i("cast", cast.name)
-}
         })
 
     }

@@ -1,19 +1,14 @@
 package com.ch.movie.ui
 
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ch.movie.R
-import com.ch.movie.api.Repository
 import com.ch.movie.databinding.ActivityShowListBinding
-import com.ch.movie.ui.tvShowList.TvShowListViewModel
-import com.ch.movie.ui.tvShowList.TvShowListViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ShowListActivity : AppCompatActivity() {
 
@@ -38,5 +33,9 @@ class ShowListActivity : AppCompatActivity() {
 //
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
     }
+
+
 }
