@@ -1,5 +1,6 @@
 package com.ch.movie.ui.tvShowList
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,8 +14,11 @@ import retrofit2.Response
 class TvShowListViewModel(private val repository: Repository) : ViewModel() {
     // TODO: Implement the ViewModel
 
-    val tvShowList : MutableLiveData<Array<TvShow>> = MutableLiveData()
+    private val tvShowList : MutableLiveData<Array<TvShow>> = MutableLiveData()
 
+    fun getTvShowList() : LiveData<Array<TvShow>>{
+        return tvShowList
+    }
 
     fun getPopularList(){
         viewModelScope.launch {

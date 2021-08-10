@@ -1,9 +1,13 @@
 package com.ch.movie.ui.tvShowList
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
+import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +39,11 @@ class TvShowListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    fun getScreenWidth(context: Context?):Int {
+        val displayMetrics = DisplayMetrics()
+        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, displayMetrics.widthPixels.toFloat(),context?.resources?.displayMetrics).toInt()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -49,11 +58,12 @@ class TvShowListFragment : Fragment() {
         val repo = Repository()
         val viewModelFactory  = TvShowListViewModelFactory(repo)
         val viewModel: TvShowListViewModel = ViewModelProvider(this,viewModelFactory).get(TvShowListViewModel::class.java)
-        binding.tvShowListRecyclerView.layoutManager = GridLayoutManager(context, 4)
+        Log.i("width",getScreenWidth(context).toString())
+        binding.tvShowListRecyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.tvShowListRecyclerView.adapter = movieListAdapter
         viewModel.getTopRatedList()
 
-        viewModel.tvShowList.observe(viewLifecycleOwner, { response ->
+        viewModel.getTvShowList().observe(viewLifecycleOwner, { response ->
             Log.i("response",response.size.toString())
             movieListAdapter.pushToTvList(response)
         })

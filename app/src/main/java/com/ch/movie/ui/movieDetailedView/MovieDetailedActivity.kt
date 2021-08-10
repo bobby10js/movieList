@@ -15,7 +15,6 @@ import com.ch.movie.api.Repository
 import com.ch.movie.databinding.ActivityMovieDetailedBinding
 import com.ch.movie.model.Cast
 import com.ch.movie.model.Movie
-import com.ch.movie.ui.tvShowDetailedView.TvShowDetailedActivity
 
 class MovieDetailedActivity : AppCompatActivity() {
 
@@ -37,9 +36,9 @@ private lateinit var binding: ActivityMovieDetailedBinding
 
         val repository = Repository()
         val movieDetailedViewModel = MovieDetailedViewModel(repository)
-        movieDetailedViewModel.getDetail(id)
-        movieDetailedViewModel.getSimilarMovieDetail(id)
-        movieDetailedViewModel.getCastDetails(id)
+        movieDetailedViewModel.setDetail(id)
+        movieDetailedViewModel.setSimilarMovieDetail(id)
+        movieDetailedViewModel.setCastDetails(id)
 
 
         val movieListAdapter = MovieListAdapter(movieList, object : ThumbNailActions {
@@ -50,11 +49,11 @@ private lateinit var binding: ActivityMovieDetailedBinding
         })
         binding.similarMoviesRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.similarMoviesRecyclerView.adapter = movieListAdapter
-        movieDetailedViewModel.similarMovieDetails.observe(this, { response ->
+        movieDetailedViewModel.getSimilarMovieDetails().observe(this, { response ->
             movieListAdapter.pushToMovieList(response.results)
         })
 
-        movieDetailedViewModel.movieDetails.observe(this, { response ->
+        movieDetailedViewModel.getMovieDetails().observe(this, { response ->
             Glide.with(this).load("https://image.tmdb.org/t/p/w500" +response.poster_path).into(binding.posterImageView)
             binding.title.text = response.title
             binding.date.text = "${(response.release_date.year+1900)} · ${response.genres?.joinToString {it.name }} · ${response.runtime} min"
@@ -72,7 +71,7 @@ private lateinit var binding: ActivityMovieDetailedBinding
         })
         binding.castListRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.castListRecyclerView.adapter = castListAdapter
-        movieDetailedViewModel.castDetails.observe(this,{ response ->
+        movieDetailedViewModel.getCastDetails().observe(this,{ response ->
                         castListAdapter.pushToCastList(response.cast)
 
             for (cast:Cast in response.cast) {

@@ -1,5 +1,6 @@
 package com.ch.movie.ui.movieDetailedView
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,25 +14,37 @@ import retrofit2.Response
 class MovieDetailedViewModel(private val repository: Repository) : ViewModel() {
     // TODO: Implement the ViewModel
 
-    val movieDetails: MutableLiveData<Movie> = MutableLiveData()
-    val similarMovieDetails: MutableLiveData<Movies> = MutableLiveData()
-    val castDetails: MutableLiveData<Casts> = MutableLiveData()
+    private val movieDetails: MutableLiveData<Movie> = MutableLiveData()
+    private val similarMovieDetails: MutableLiveData<Movies> = MutableLiveData()
+    private val castDetails: MutableLiveData<Casts> = MutableLiveData()
 
-    fun getDetail(id: Int) {
+    fun getMovieDetails() : LiveData<Movie>{
+        return movieDetails
+    }
+
+    fun getSimilarMovieDetails() : LiveData<Movies>{
+        return similarMovieDetails
+    }
+
+    fun getCastDetails() : LiveData<Casts>{
+        return castDetails
+    }
+
+    fun setDetail(id: Int) {
         viewModelScope.launch {
             val response: Response<Movie> = repository.getMovieDetail(id)
             movieDetails.value = response.body()
         }
     }
 
-    fun getSimilarMovieDetail(id: Int) {
+    fun setSimilarMovieDetail(id: Int) {
         viewModelScope.launch {
             val response: Response<Movies> = repository.getSimilarMovieDetail(id)
             similarMovieDetails.value = response.body()
         }
     }
 
-    fun getCastDetails(id: Int) {
+    fun setCastDetails(id: Int) {
         viewModelScope.launch {
             val response: Response<Casts> = repository.getMovieCastDetails(id)
             castDetails.value = response.body()

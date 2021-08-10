@@ -17,12 +17,14 @@ import com.ch.movie.model.Cast
 import com.ch.movie.model.TvShow
 import com.ch.movie.ui.movieDetailedView.TvShowDetailedViewModel
 
+
 class TvShowDetailedActivity : AppCompatActivity() {
 
 private lateinit var binding: ActivityTvShowDetailedBinding
     var id:Int = 0
     var tvShowList: ArrayList<TvShow> = ArrayList()
     var castList: ArrayList<Cast> = ArrayList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +39,9 @@ private lateinit var binding: ActivityTvShowDetailedBinding
 
         val repository = Repository()
         val tvShowDetailedViewModel = TvShowDetailedViewModel(repository)
-        tvShowDetailedViewModel.getDetail(id)
-        tvShowDetailedViewModel.getSimilarTvShowDetail(id)
-        tvShowDetailedViewModel.getCastDetails(id)
-
+        tvShowDetailedViewModel.setDetail(id)
+        tvShowDetailedViewModel.setSimilarTvShowDetail(id)
+        tvShowDetailedViewModel.setCastDetails(id)
 
         val tvShowListAdapter = TvShowListAdapter(tvShowList, object : ThumbNailActions {
             override fun onClick(id: Int) {
@@ -50,11 +51,11 @@ private lateinit var binding: ActivityTvShowDetailedBinding
         })
         binding.similarTvShowsRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.similarTvShowsRecyclerView.adapter = tvShowListAdapter
-        tvShowDetailedViewModel.similarTvShowDetails.observe(this, { response ->
+        tvShowDetailedViewModel.getSimilarTvShowDetails().observe(this, { response ->
             tvShowListAdapter.pushToTvList(response.results)
         })
 
-        tvShowDetailedViewModel.tvShowDetails.observe(this, { response ->
+        tvShowDetailedViewModel.getTvShowDetail().observe(this, { response ->
             Glide.with(this).load("https://image.tmdb.org/t/p/w500" +response.poster_path).into(binding.posterImageView)
             binding.title.text = response.name
             binding.date.text = "${(response.first_air_date.year+1900)} · ${response.genres?.joinToString {it.name }} · ${response.episode_run_time?.sum()} min"
@@ -72,7 +73,7 @@ private lateinit var binding: ActivityTvShowDetailedBinding
         })
         binding.castListRecyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         binding.castListRecyclerView.adapter = castListAdapter
-        tvShowDetailedViewModel.castDetails.observe(this,{ response ->
+        tvShowDetailedViewModel.getCastDetails().observe(this,{ response ->
                         castListAdapter.pushToCastList(response.cast)
 
             for (cast:Cast in response.cast) {
@@ -80,6 +81,9 @@ private lateinit var binding: ActivityTvShowDetailedBinding
     Log.i("cast", cast.name)
 }
         })
+
+
+
 
     }
 
