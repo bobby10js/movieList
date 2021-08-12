@@ -7,7 +7,7 @@ data class TvShow (
     var popularity: Double,
     var id: Int,
     var backdrop_path: String,
-    var vote_average : Float ,
+    var vote_average : Float,
     var overview: String,
     var first_air_date: Date,
     var origin_country : Array<String>,
@@ -16,6 +16,6 @@ data class TvShow (
     var vote_count : Int,
     var name : String,
     var original_name: String,
-    var genres: Array<Genres>?,
+    var genres: Array<Genre>?,
     var episode_run_time: IntArray?,
     )

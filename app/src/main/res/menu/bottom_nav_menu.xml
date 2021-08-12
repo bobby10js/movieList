@@ -6,11 +6,14 @@
         android:icon="@drawable/film"
         android:title="Movies" />
 
-
-
     <item
         android:id="@+id/navigation_tv_shows"
         android:icon="@drawable/tv"
         android:title="TV Shows" />
+
+    <item
+        android:id="@+id/navigation_movie_watch_later"
+        android:icon="@drawable/tv"
+        android:title="Watch List" />
 
 </menu>

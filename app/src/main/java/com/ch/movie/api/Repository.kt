@@ -1,10 +1,15 @@
 package com.ch.movie.api
 
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.LiveData
+import com.ch.movie.db.WatchListDao
+import com.ch.movie.db.WatchListDatabase
 import com.ch.movie.model.*
 import com.ch.movie.util.Constants.Companion.api_key
 import retrofit2.Response
+class Repository() {
 
-class Repository {
     private var pageNumber: Int = 1
 
     suspend fun getPopularMovieList(): Response<Movies> {
@@ -67,5 +72,11 @@ class Repository {
     suspend fun getPopularTVListListNextPage(): Response<TvShows> {
         return RetrofitInstance.API.getTopRatedTVList(api_key, ++pageNumber)
     }
+
+
+
+
+
+
 
 }

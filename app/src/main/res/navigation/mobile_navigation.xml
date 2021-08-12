@@ -18,4 +18,11 @@
         android:name="com.ch.movie.ui.tvShowList.TvShowListFragment"
         android:label="TvShows"
         tools:layout="@layout/fragment_tv_show_list" />
+
+
+    <fragment
+        android:id="@+id/navigation_movie_watch_later"
+        android:name="com.ch.movie.ui.watchLater.WatchLaterMovieListFragment"
+        android:label="WatchLaterMovie"
+        tools:layout="@layout/fragment_watch_later_movie_list" />
 </navigation>

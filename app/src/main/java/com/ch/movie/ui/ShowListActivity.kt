@@ -27,7 +27,7 @@ class ShowListActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_movies, R.id.navigation_tv_shows
+                R.id.navigation_movies, R.id.navigation_tv_shows, R.id.navigation_movie_watch_later
             )
         )
 //

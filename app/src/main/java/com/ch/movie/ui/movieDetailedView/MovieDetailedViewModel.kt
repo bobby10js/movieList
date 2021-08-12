@@ -11,12 +11,15 @@ import com.ch.movie.model.Movies
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class MovieDetailedViewModel(private val repository: Repository) : ViewModel() {
+class MovieDetailedViewModel(
+    private val repository: Repository,
+) : ViewModel() {
     // TODO: Implement the ViewModel
 
     private val movieDetails: MutableLiveData<Movie> = MutableLiveData()
     private val similarMovieDetails: MutableLiveData<Movies> = MutableLiveData()
     private val castDetails: MutableLiveData<Casts> = MutableLiveData()
+
 
     fun getMovieDetails() : LiveData<Movie>{
         return movieDetails
@@ -49,5 +52,10 @@ class MovieDetailedViewModel(private val repository: Repository) : ViewModel() {
             val response: Response<Casts> = repository.getMovieCastDetails(id)
             castDetails.value = response.body()
         }
+
     }
+
+
+
+
 }

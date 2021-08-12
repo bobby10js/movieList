@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.ch.movie.R
 import com.ch.movie.model.Movie
 
-class MovieListAdapter(private var movieList: ArrayList<Movie>, private var  thumbNailActions: ThumbNailActions): RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
+class MovieListAdapter(private var movieList: ArrayList<Movie>, private var thumbNailActions: ThumbNailActions): RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -22,7 +22,7 @@ class MovieListAdapter(private var movieList: ArrayList<Movie>, private var  thu
 
         return ViewHolder(view)
     }
-
+    @Synchronized
     fun pushToMovieList(movieList: Array<Movie>){
         for(movie in movieList) {
             this.movieList.add(movie)
@@ -31,8 +31,7 @@ class MovieListAdapter(private var movieList: ArrayList<Movie>, private var  thu
 
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie: Movie = movieList[position]
-        holder.textView.text = movie.title
+        val movie: Movie = movieList.get(position)
         Glide.with(holder.imageView.context).load("https://image.tmdb.org/t/p/w185" +movie.poster_path).into(holder.imageView)
         holder.imageView.setOnClickListener {
             thumbNailActions.onClick(movie.id)

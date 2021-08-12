@@ -4,11 +4,7 @@ import com.ch.movie.util.Constants.Companion.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.GsonBuilder
-
 import com.google.gson.Gson
-
-
-
 
 object RetrofitInstance {
     private var gsonDate: Gson = GsonBuilder()
@@ -23,7 +19,6 @@ object RetrofitInstance {
 
     val API:TmdbAPI by lazy {
         retrofit.create(TmdbAPI::class.java)
-
     }
 
 
