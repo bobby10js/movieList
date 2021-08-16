@@ -1,5 +1,6 @@
 package com.ch.movie.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,15 @@ import com.ch.movie.model.Movie
 import com.ch.movie.model.TvShow
 
 class ShowListAdapter(private var thumbNailActions: ThumbNailActions): RecyclerView.Adapter<ShowListAdapter.ViewHolder>() {
- 
-    private var showList: Array<Any> = arrayOf()
+
+    companion object{
+        val VIEW_MOVIE_TYPE = 1
+        val VIEW_TV_SHOW_TYPE = 2
+
+    }
+    private var showList: List<Any> = listOf()
+    private var movieList: List<Movie> = listOf()
+    private var tvShowList: List<TvShow> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -27,43 +35,66 @@ class ShowListAdapter(private var thumbNailActions: ThumbNailActions): RecyclerV
 
     fun setTvShowList(tvShowList: Array<TvShow>) {
         if (tvShowList.isNotEmpty()) {
-            this.showList = tvShowList as Array<Any>
-            notifyDataSetChanged()
+            this.tvShowList = tvShowList.toList()
+            setShowList()
         }
     }
     fun setMovieList(movieList: Array<Movie>) {
         if (movieList.isNotEmpty()) {
-            this.showList = movieList as Array<Any>
-            notifyDataSetChanged()
+            this.movieList = movieList.toList()
+            setShowList()
         }
+
     }
 
-    fun setMovieList(movieList: List<Any>) {
-            this.showList = movieList.toTypedArray()
-            notifyDataSetChanged()
-    }
-    fun setTvShowList(movieList: List<Any>) {
-        this.showList = movieList.toTypedArray()
+    fun setShowList(movieList: List<Movie>? = this.movieList, tvShowList: List<TvShow>? = this.tvShowList) {
+        if(movieList!=null)
+            this.movieList = movieList
+        if(tvShowList!=null)
+            this.tvShowList = tvShowList
+        this.showList = this.movieList+this.tvShowList
+        Log.i("ShowListAdapter",movieList?.size.toString()+"|"+tvShowList?.size+"|"+ this.showList.size.toString()+"|"+itemCount)
+
         notifyDataSetChanged()
+
     }
+
+
+//    fun addToMovieList(movieList: List<Movie>) {
+//        this.showList += movieList
+//        notifyDataSetChanged()
+//    }
+//    fun addToTvShowList(tvShowList: List<TvShow>) {
+//        this.showList += tvShowList
+//        notifyDataSetChanged()
+//    }
+//
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        when{
-             showList[position] is Movie ->{
+
+        when(showList[position]){
+              is Movie ->{
                  val movie: Movie = showList[position] as Movie
-                 holder.textView.text = movie.title
+//                  Log.i("ShowListAdapter",movie.title+""+itemCount)
+
+                  holder.textView.text = movie.title
                  Glide.with(holder.imageView.context).load("https://image.tmdb.org/t/p/w185" + movie.poster_path).into(holder.imageView)
                  holder.imageView.setOnClickListener {
-                     thumbNailActions.onClick(movie.id)
+                     thumbNailActions.onClick(movie.id, VIEW_MOVIE_TYPE)
                  }
              }
-            showList[position] is TvShow ->{
+             is TvShow ->{
                 val tvShow: TvShow = showList[position] as TvShow
-                holder.textView.text = tvShow.name
+//                 Log.i("ShowListAdapter",tvShow.name+""+itemCount)
+
+                 holder.textView.text = tvShow.name
                 Glide.with(holder.imageView.context).load("https://image.tmdb.org/t/p/w185" + tvShow.poster_path).into(holder.imageView)
                 holder.imageView.setOnClickListener {
-                    thumbNailActions.onClick(tvShow.id)
+                    thumbNailActions.onClick(tvShow.id, VIEW_TV_SHOW_TYPE)
                 }
+            }
+            else->{
+//                Log.i("ShowListAdapter","error")
             }
         }
 
@@ -80,7 +111,7 @@ class ShowListAdapter(private var thumbNailActions: ThumbNailActions): RecyclerV
         var imageView: ImageView = itemView.findViewById(R.id.imageView)
     }
     interface ThumbNailActions {
-        fun onClick(id: Int)
+        fun onClick(id: Int, viewType: Int)
 
     }
 }

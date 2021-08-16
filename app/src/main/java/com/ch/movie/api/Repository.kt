@@ -15,7 +15,6 @@ class Repository {
     }
 
     suspend fun getTopRatedMovieList(pageNumber: Int): Response<Movies> {
-        Log.i("getTopRatedMovieList",pageNumber.toString())
         return RetrofitInstance.API.getTopRatedMovieList(api_key, pageNumber)
     }
 

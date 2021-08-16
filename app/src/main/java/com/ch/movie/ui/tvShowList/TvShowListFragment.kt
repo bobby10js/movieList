@@ -39,7 +39,7 @@ class TvShowListFragment : Fragment() {
         val viewModelFactory  = TvShowListViewModelFactory(repo)
         val viewModel: TvShowListViewModel = ViewModelProvider(this,viewModelFactory).get(TvShowListViewModel::class.java)
         val tvShowListAdapter =  ShowListAdapter( object : ShowListAdapter.ThumbNailActions {
-            override fun onClick(id: Int) {
+            override fun onClick(id: Int,viewType: Int) {
                 val intent = Intent(activity, TvShowDetailedActivity::class.java)
                 intent.putExtra("id",id)
                 startActivity(intent)
@@ -49,7 +49,6 @@ class TvShowListFragment : Fragment() {
         binding.tvShowListRecyclerView.adapter = tvShowListAdapter
         viewModel.getTopRatedListNextPage()
         viewModel.getTvShowList().observe(viewLifecycleOwner, { response ->
-            Log.i("response", response.size.toString())
             tvShowListAdapter.setTvShowList(response)
         })
         binding.tvShowListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

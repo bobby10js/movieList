@@ -38,7 +38,7 @@ class MovieListFragment : Fragment() {
         val viewModelFactory  = MovieListViewModelFactory(repo)
         val viewModel: MovieListViewModel = ViewModelProvider(this,viewModelFactory).get(MovieListViewModel::class.java)
         val movieListAdapter =  ShowListAdapter( object : ShowListAdapter.ThumbNailActions {
-            override fun onClick(id: Int) {
+            override fun onClick(id: Int,viewType: Int) {
                 val intent = Intent(activity, MovieDetailedActivity::class.java)
                 intent.putExtra("id",id)
                 startActivity(intent)

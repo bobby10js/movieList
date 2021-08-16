@@ -29,4 +29,10 @@ class DbTypeConverters {
     fun jsonStringToList(value: String): Array<Genre> = Gson().fromJson(value, Array<Genre>::class.java)
 
 
+
+    @TypeConverter
+    fun fromStringArrayToString(originCountries: Array<String>): String = Gson().toJson(originCountries)
+
+    @TypeConverter
+    fun jsonStringToStringArray(value: String): Array<String> = Gson().fromJson(value, Array<String>::class.java)
 }

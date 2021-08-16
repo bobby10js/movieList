@@ -6,8 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ch.movie.model.Movie
+import com.ch.movie.model.TvShow
 
-@Database(entities = [Movie::class],version = 1)
+@Database(entities = [Movie::class ,TvShow::class],version = 1)
 @TypeConverters(DbTypeConverters::class)
 abstract class WatchListDatabase: RoomDatabase() {
      abstract fun watchListDao() : WatchListDao
