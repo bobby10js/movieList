@@ -50,6 +50,9 @@ class MovieListFragment : Fragment() {
         viewModel.getMovieList().observe(viewLifecycleOwner, { response ->
             movieListAdapter.setMovieList(response)
         })
+//        viewModel.user.observe(viewLifecycleOwner,{response ->
+//            movieListAdapter.setMovieList(response)
+//        })
         binding.movieListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)

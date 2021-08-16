@@ -1,15 +1,15 @@
 package com.ch.movie.ui.movieList
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ch.movie.api.Repository
 import com.ch.movie.model.Movie
 import com.ch.movie.model.Movies
+
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import com.ch.movie.util.ExtensionFunctions.append
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MovieListViewModel(private val repository: Repository) : ViewModel() {
     private var pageNumber = 0
@@ -39,6 +39,12 @@ class MovieListViewModel(private val repository: Repository) : ViewModel() {
             movieList.append(response.body()?.results?: arrayOf())
         }
     }
+
+    val user = liveData {
+        val data =  repository.getTopRatedMovieList(++pageNumber).body()?.results?: arrayOf() // loadUser is a suspend function.
+        emit(data)
+    }
+
 
 
 }

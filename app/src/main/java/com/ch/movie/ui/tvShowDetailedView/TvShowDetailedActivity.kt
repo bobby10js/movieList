@@ -51,7 +51,7 @@ private lateinit var binding: ActivityTvShowDetailedBinding
             Glide.with(this).load("https://image.tmdb.org/t/p/w500" + tvShow.poster_path).into(binding.posterImageView)
             this.tvShow = tvShow
             binding.title.text = tvShow.name
-            binding.date.text = "${(tvShow.first_air_date?.year?.plus(1900))} · ${tvShow.genres?.joinToString { it.name }} · ${tvShow.episode_run_time} min"
+            binding.date.text = "${(tvShow.first_air_date?.year?.plus(1900))} · ${tvShow.genres?.joinToString { it.name }} · ${tvShow.episode_run_time?.sum()} min"
             binding.ratingTextView.text = tvShow.vote_average.toString()
             binding.overViewTxtView.text = tvShow.overview
             binding.ratingBar.rating = tvShow.vote_average / 2

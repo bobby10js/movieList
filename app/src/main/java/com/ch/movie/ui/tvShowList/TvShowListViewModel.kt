@@ -35,7 +35,7 @@ class TvShowListViewModel(private val repository: Repository) : ViewModel() {
 
     fun getTopRatedListNextPage(){
         viewModelScope.launch {
-            val response: Response<TvShows> = repository.getPopularTVList(++pageNumber)
+            val response: Response<TvShows> = repository.getTopRatedTVList(++pageNumber)
             tvShowList.append (response.body()?.results?: arrayOf())
         }
     }

@@ -1,9 +1,6 @@
 package com.ch.movie.ui.watchLater
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ch.movie.db.Repository
 import com.ch.movie.model.Movie
 import com.ch.movie.model.TvShow
@@ -54,6 +51,9 @@ class WatchLaterViewModel(private var watchListRepo: Repository) :ViewModel() {
     fun getAllTvShowWatchList(): LiveData<List<TvShow>> {
         return watchListRepo.getAllTvShowWatchList()
     }
+
+
+
 
 
 }
