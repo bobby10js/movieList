@@ -9,7 +9,7 @@ data class TvShow (
     var backdrop_path: String,
     var vote_average : Float,
     var overview: String,
-    var first_air_date: Date,
+    var first_air_date: Date?,
     var origin_country : Array<String>,
     var genre_ids: IntArray,
     var original_language: String,

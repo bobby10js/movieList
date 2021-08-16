@@ -9,42 +9,49 @@ import com.ch.movie.model.Movie
 import com.ch.movie.model.Movies
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import com.ch.movie.util.ExtensionFunctions.append
 
 class MovieListViewModel(private val repository: Repository) : ViewModel() {
-    // TODO: Implement the ViewModel
+    private var pageNumber = 1
+    private var movieList : MutableLiveData<Array<Movie>> = MutableLiveData()
 
-    private var movieList : MutableLiveData<Array<Movie>> = MutableLiveData() //using val to protect instead of using getterMethod
+    init {
+        movieList.value = arrayOf()
+    }
 
     fun getMovieList() : LiveData<Array<Movie>> {
         return movieList
     }
 
     fun getPopularList(){
+        pageNumber = 1
         viewModelScope.launch {
-            val response: Response<Movies> = repository.getPopularMovieList()
-            movieList.postValue (response.body()?.results)
+            val response: Response<Movies> = repository.getPopularMovieList(pageNumber)
+            movieList.append(response.body()?.results?: arrayOf())
+        }
+    }
+
+    fun getPopularListNextPage(){
+        viewModelScope.launch {
+            val response: Response<Movies> = repository.getPopularMovieList(++pageNumber)
+            movieList.append (response.body()?.results?: arrayOf())
         }
     }
 
     fun getTopRatedList(){
+        pageNumber = 1
         viewModelScope.launch {
-            val response: Response<Movies> = repository.getTopRatedMovieList()
-            movieList.postValue (response.body()?.results)
+            val response: Response<Movies> = repository.getTopRatedMovieList(pageNumber)
+            movieList.append (response.body()?.results?: arrayOf())
         }
     }
 
-
-    fun getPopularListNextPage(){
-        viewModelScope.launch {
-            val response: Response<Movies> = repository.getPopularMovieListNextPage()
-            movieList.postValue (response.body()?.results)
-        }
-    }
 
     fun getTopRatedListNextPage(){
         viewModelScope.launch {
-            val response: Response<Movies> = repository.getTopRatedMovieListNextPage()
-            movieList.postValue(response.body()?.results)
+            val response: Response<Movies> = repository.getTopRatedMovieList(++pageNumber)
+            movieList.append(response.body()?.results?: arrayOf())
         }
     }
 }
+

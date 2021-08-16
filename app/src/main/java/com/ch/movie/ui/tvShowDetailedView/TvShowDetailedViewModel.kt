@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class TvShowDetailedViewModel(private val repository: Repository) : ViewModel() {
-    // TODO: Implement the ViewModel
 
     private val tvShowDetails: MutableLiveData<TvShow> = MutableLiveData()
     private val similarTvShowDetails: MutableLiveData<TvShows> = MutableLiveData()

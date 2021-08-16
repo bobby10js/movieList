@@ -2,6 +2,7 @@ package com.ch.movie.db
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.ch.movie.model.Movie
 
 class Repository(var context:Context) {
@@ -15,8 +16,10 @@ class Repository(var context:Context) {
     suspend fun insert(movie: Movie) = watchListDao.insert(movie)
     suspend fun update(movie: Movie) = watchListDao.update(movie)
     suspend fun delete(movie: Movie) = watchListDao.delete(movie)
-    suspend fun getAllWatchList():List<Movie> =  watchListDao.getAllMovies()
+    fun getAllWatchList() =  watchListDao.getAllMovies()
+    fun getIsMovieAdded(id: Int) = Transformations.map( watchListDao.isMovieAdded(id)) {
+        list -> list.isNotEmpty()
+    }
 
-    fun getIsMovieAdded(id: Int) =  watchListDao.isMovieAdded(id)
 
 }

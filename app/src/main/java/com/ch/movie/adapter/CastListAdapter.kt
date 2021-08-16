@@ -10,18 +10,19 @@ import com.bumptech.glide.Glide
 import com.ch.movie.R
 import com.ch.movie.model.Cast
 
-class CastListAdapter(private var castList: ArrayList<Cast>): RecyclerView.Adapter<CastListAdapter.ViewHolder>() {
-
+class CastListAdapter(): RecyclerView.Adapter<CastListAdapter.ViewHolder>() {
+    private var castList: Array<Cast> = arrayOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.inflate_card_cast, parent, false)
         return ViewHolder(view)
     }
 
+
     fun pushToCastList(castList: Array<Cast>){
-        for(cast in castList) {
-            this.castList.add(cast)
+        if (castList.isNotEmpty()) {
+            this.castList = castList
+            notifyDataSetChanged()
         }
-        notifyDataSetChanged()
 
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -41,7 +42,4 @@ class CastListAdapter(private var castList: ArrayList<Cast>): RecyclerView.Adapt
 
     }
 
-//    fun getURlString(path:String) :String{
-//        return "https://image.tmdb.org/t/p/w185"+ path
-//    }
 }

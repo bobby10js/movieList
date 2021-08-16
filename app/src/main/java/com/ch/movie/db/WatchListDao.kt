@@ -17,7 +17,7 @@ interface WatchListDao {
     suspend fun delete(movie: Movie)
 
     @Query("SELECT * FROM movie_list")
-    suspend fun getAllMovies(): List<Movie>
+    fun getAllMovies(): LiveData<List<Movie>>
 
     @Query("SELECT * FROM movie_list WHERE id= :id")
     fun  isMovieAdded(id: Int): LiveData<List<Movie>>

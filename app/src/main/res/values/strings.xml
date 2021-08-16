@@ -2,7 +2,5 @@
     <string name="app_name">movielist</string>
     <string name="title_activity_movie_detailed">MovieDetailedActivity</string>
     <string name="title_activity_show_list">ShowListActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- TODO: Remove or change this placeholder text -->
 </resources>

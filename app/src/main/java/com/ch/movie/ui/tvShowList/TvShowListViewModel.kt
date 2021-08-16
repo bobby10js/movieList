@@ -7,45 +7,51 @@ import androidx.lifecycle.viewModelScope
 import com.ch.movie.api.Repository
 import com.ch.movie.model.TvShow
 import com.ch.movie.model.TvShows
-
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import com.ch.movie.util.ExtensionFunctions.append
 
 class TvShowListViewModel(private val repository: Repository) : ViewModel() {
-    // TODO: Implement the ViewModel
-
+    private var pageNumber = 1
     private val tvShowList : MutableLiveData<Array<TvShow>> = MutableLiveData()
+
+    init {
+        tvShowList.value = arrayOf()
+    }
 
     fun getTvShowList() : LiveData<Array<TvShow>>{
         return tvShowList
     }
 
     fun getPopularList(){
+        pageNumber = 1
         viewModelScope.launch {
-            val response: Response<TvShows> = repository.getPopularTVList()
-            tvShowList.value = response.body()?.results
+            val response: Response<TvShows> = repository.getPopularTVList(pageNumber)
+            tvShowList.append (response.body()?.results?: arrayOf())
+        }
+    }
+
+    fun getPopularListNextPage(){
+        viewModelScope.launch {
+            val response: Response<TvShows> = repository.getPopularTVList(++pageNumber)
+            tvShowList.append (response.body()?.results?: arrayOf())
         }
     }
 
     fun getTopRatedList(){
+        pageNumber = 1
         viewModelScope.launch {
-            val response: Response<TvShows> = repository.getTopRatedTVList()
-            tvShowList.value = response.body()?.results
+            val response: Response<TvShows> = repository.getTopRatedTVList(pageNumber)
+            tvShowList.append (response.body()?.results?: arrayOf())
         }
     }
 
-
-    fun getPopularListNextPage(){
-        viewModelScope.launch {
-            val response: Response<TvShows> = repository.getPopularTVListNextPage()
-            tvShowList.value = response.body()?.results
-        }
-    }
 
     fun getTopRatedListNextPage(){
         viewModelScope.launch {
-            val response: Response<TvShows> = repository.getPopularTVListListNextPage()
-            tvShowList.value = response.body()?.results
+            val response: Response<TvShows> = repository.getPopularTVList(++pageNumber)
+            tvShowList.append (response.body()?.results?: arrayOf())
         }
     }
 }
+

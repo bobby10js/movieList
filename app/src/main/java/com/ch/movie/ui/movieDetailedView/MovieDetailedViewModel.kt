@@ -14,7 +14,6 @@ import retrofit2.Response
 class MovieDetailedViewModel(
     private val repository: Repository,
 ) : ViewModel() {
-    // TODO: Implement the ViewModel
 
     private val movieDetails: MutableLiveData<Movie> = MutableLiveData()
     private val similarMovieDetails: MutableLiveData<Movies> = MutableLiveData()
