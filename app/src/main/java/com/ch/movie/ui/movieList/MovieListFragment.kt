@@ -46,7 +46,7 @@ class MovieListFragment : Fragment() {
         })
         binding.movieListRecyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.movieListRecyclerView.adapter = movieListAdapter
-        viewModel.getTopRatedList()
+        viewModel.getTopRatedListNextPage()
         viewModel.getMovieList().observe(viewLifecycleOwner, { response ->
             movieListAdapter.setMovieList(response)
         })

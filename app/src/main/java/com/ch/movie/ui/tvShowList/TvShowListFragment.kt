@@ -47,7 +47,7 @@ class TvShowListFragment : Fragment() {
         })
         binding.tvShowListRecyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.tvShowListRecyclerView.adapter = tvShowListAdapter
-        viewModel.getTopRatedList()
+        viewModel.getTopRatedListNextPage()
         viewModel.getTvShowList().observe(viewLifecycleOwner, { response ->
             Log.i("response", response.size.toString())
             tvShowListAdapter.setTvShowList(response)

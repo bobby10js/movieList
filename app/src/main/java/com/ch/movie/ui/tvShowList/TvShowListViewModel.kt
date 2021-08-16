@@ -12,7 +12,7 @@ import retrofit2.Response
 import com.ch.movie.util.ExtensionFunctions.append
 
 class TvShowListViewModel(private val repository: Repository) : ViewModel() {
-    private var pageNumber = 1
+    private var pageNumber = 0
     private val tvShowList : MutableLiveData<Array<TvShow>> = MutableLiveData()
 
     init {
@@ -23,13 +23,6 @@ class TvShowListViewModel(private val repository: Repository) : ViewModel() {
         return tvShowList
     }
 
-    fun getPopularList(){
-        pageNumber = 1
-        viewModelScope.launch {
-            val response: Response<TvShows> = repository.getPopularTVList(pageNumber)
-            tvShowList.append (response.body()?.results?: arrayOf())
-        }
-    }
 
     fun getPopularListNextPage(){
         viewModelScope.launch {
@@ -38,13 +31,6 @@ class TvShowListViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun getTopRatedList(){
-        pageNumber = 1
-        viewModelScope.launch {
-            val response: Response<TvShows> = repository.getTopRatedTVList(pageNumber)
-            tvShowList.append (response.body()?.results?: arrayOf())
-        }
-    }
 
 
     fun getTopRatedListNextPage(){

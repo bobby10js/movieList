@@ -1,5 +1,6 @@
 package com.ch.movie.api
 
+import android.util.Log
 import com.ch.movie.model.*
 import com.ch.movie.util.Constants.Companion.api_key
 import retrofit2.Response
@@ -14,6 +15,7 @@ class Repository {
     }
 
     suspend fun getTopRatedMovieList(pageNumber: Int): Response<Movies> {
+        Log.i("getTopRatedMovieList",pageNumber.toString())
         return RetrofitInstance.API.getTopRatedMovieList(api_key, pageNumber)
     }
 
