@@ -14,6 +14,7 @@ import com.ch.movie.R
 import com.ch.movie.adapter.ShowListAdapter
 import com.ch.movie.api.Repository
 import com.ch.movie.databinding.FragmentTvShowListBinding
+import com.ch.movie.util.ViewModelFactory
 
 class TvShowListFragment : Fragment() {
 
@@ -35,7 +36,7 @@ class TvShowListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val repo = Repository()
-        val viewModelFactory  = TvShowListViewModelFactory(repo)
+        val viewModelFactory  = ViewModelFactory(TvShowListViewModel(repo))
         val viewModel: TvShowListViewModel = ViewModelProvider(this,viewModelFactory).get(TvShowListViewModel::class.java)
         val tvShowListAdapter =  ShowListAdapter( object : ShowListAdapter.ThumbNailActions {
             override fun onClick(id: Int,viewType: Int) {

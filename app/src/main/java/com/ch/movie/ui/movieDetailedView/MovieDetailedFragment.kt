@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ch.movie.R
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +16,8 @@ import com.ch.movie.adapter.ShowListAdapter
 import com.ch.movie.api.Repository
 import com.ch.movie.databinding.FragmentMovieDetailedBinding
 import com.ch.movie.model.Movie
-import com.ch.movie.ui.ShowListActivity
 import com.ch.movie.ui.watchLater.WatchLaterViewModel
+import com.ch.movie.util.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
 class MovieDetailedFragment : Fragment() {
@@ -40,7 +41,6 @@ class MovieDetailedFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         movieId = arguments?.getInt("id")?:0
 
@@ -49,7 +49,8 @@ class MovieDetailedFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val repository = Repository()
         val watchListRepo = com.ch.movie.db.Repository(requireContext())
-        val movieDetailedViewModel = MovieDetailedViewModel(repository)
+        val viewModelFactory  = ViewModelFactory( MovieDetailedViewModel(repository))
+        val movieDetailedViewModel = ViewModelProvider(this,viewModelFactory).get( MovieDetailedViewModel::class.java)
         val watchLaterViewModel = WatchLaterViewModel(watchListRepo)
         movieDetailedViewModel.setDetail(movieId)
         movieDetailedViewModel.setSimilarMovieDetail(movieId)

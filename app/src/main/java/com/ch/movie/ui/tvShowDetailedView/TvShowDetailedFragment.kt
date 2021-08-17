@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ch.movie.R
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +16,8 @@ import com.ch.movie.adapter.ShowListAdapter
 import com.ch.movie.api.Repository
 import com.ch.movie.databinding.FragmentTvShowDetailedBinding
 import com.ch.movie.model.TvShow
-import com.ch.movie.ui.ShowListActivity
 import com.ch.movie.ui.watchLater.WatchLaterViewModel
+import com.ch.movie.util.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
 class TvShowDetailedFragment : Fragment() {
@@ -30,7 +31,6 @@ class TvShowDetailedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        ShowListActivity.navView.visibility = View.GONE
 
         _binding = FragmentTvShowDetailedBinding.inflate(inflater, container, false)
         return binding.root
@@ -49,7 +49,8 @@ class TvShowDetailedFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val repository = Repository()
         val watchListRepo = com.ch.movie.db.Repository(requireContext())
-        val tvShowDetailedViewModel = TvShowDetailedViewModel(repository)
+        val viewModelFactory  = ViewModelFactory( TvShowDetailedViewModel(repository))
+        val tvShowDetailedViewModel = ViewModelProvider(this,viewModelFactory).get(TvShowDetailedViewModel::class.java)
         val watchLaterViewModel = WatchLaterViewModel(watchListRepo)
         tvShowDetailedViewModel.setDetail(tvShowId)
         tvShowDetailedViewModel.setSimilarTvShowDetail(tvShowId)
