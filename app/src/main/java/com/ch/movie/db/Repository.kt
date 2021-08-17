@@ -1,7 +1,6 @@
 package com.ch.movie.db
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.ch.movie.model.Movie
 import com.ch.movie.model.TvShow

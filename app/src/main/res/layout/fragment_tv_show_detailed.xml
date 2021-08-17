@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.tvShowDetailedView.TvShowDetailedActivity">
+    tools:context=".ui.ShowListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -51,13 +51,10 @@
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/white"
                     android:textSize="34sp"
-
                     app:layout_constraintBottom_toTopOf="@+id/date"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/date"
@@ -91,23 +88,22 @@
                     style="@style/Theme.MovieList.RatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="16dp"
                     android:rating="4"
                     android:scaleX="0.8"
                     android:scaleY="0.8"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ratingTextView" />
+                    app:layout_constraintStart_toEndOf="@id/ratingTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/date" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_movie_detailed"
+        tools:showIn="@layout/activity_show_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".ui.tvShowDetailedView.TvShowDetailedActivity">
@@ -139,9 +135,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Similar Movies" />
+                android:text="Similar Shows" />
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/similarMoviesRecyclerView"
+                android:id="@+id/similarTvShowsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>

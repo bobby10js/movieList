@@ -21,8 +21,21 @@
 
 
     <fragment
-        android:id="@+id/navigation_movie_watch_later"
+        android:id="@+id/navigation_watch_later"
         android:name="com.ch.movie.ui.watchLater.WatchLaterListFragment"
         android:label="WatchLaterMovie"
         tools:layout="@layout/fragment_watch_later_list" />
+
+
+    <fragment
+        android:id="@+id/navigation_tv_show_detailed"
+        android:name="com.ch.movie.ui.tvShowDetailedView.TvShowDetailedFragment"
+        android:label="TvShowDetailed"
+        tools:layout="@layout/fragment_tv_show_detailed" />
+
+    <fragment
+        android:id="@+id/navigation_movie_detailed"
+        android:name="com.ch.movie.ui.movieDetailedView.MovieDetailedFragment"
+        android:label="MovieDetailed"
+        tools:layout="@layout/fragment_movie_detailed" />
 </navigation>

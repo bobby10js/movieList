@@ -12,8 +12,8 @@
         android:title="TV Shows" />
 
     <item
-        android:id="@+id/navigation_movie_watch_later"
-        android:icon="@drawable/tv"
+        android:id="@+id/navigation_watch_later"
+        android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="Watch List" />
 
 </menu>

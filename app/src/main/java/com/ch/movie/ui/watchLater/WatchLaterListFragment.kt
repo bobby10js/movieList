@@ -6,12 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.ch.movie.R
 import com.ch.movie.adapter.ShowListAdapter
 import com.ch.movie.databinding.FragmentWatchLaterListBinding
-import com.ch.movie.ui.movieDetailedView.MovieDetailedActivity
-import com.ch.movie.ui.tvShowDetailedView.TvShowDetailedActivity
 
 
 class WatchLaterListFragment : Fragment() {
@@ -34,13 +35,10 @@ class WatchLaterListFragment : Fragment() {
         binding.watchLaterListRecyclerView.layoutManager = GridLayoutManager(context, 3)
         val showListAdapter =  ShowListAdapter( object : ShowListAdapter.ThumbNailActions {
             override fun onClick(id: Int,viewType: Int) {
-                val intent = when(viewType){
-                    ShowListAdapter.VIEW_MOVIE_TYPE -> Intent(activity, MovieDetailedActivity::class.java)
-                    ShowListAdapter.VIEW_TV_SHOW_TYPE -> Intent(activity, TvShowDetailedActivity::class.java)
-                    else -> null
+                 when(viewType){
+                    ShowListAdapter.VIEW_MOVIE_TYPE -> findNavController().navigate(R.id.navigation_movie_detailed, bundleOf("id" to id))
+                    ShowListAdapter.VIEW_TV_SHOW_TYPE -> findNavController().navigate(R.id.navigation_tv_show_detailed, bundleOf("id" to id))
                 }
-                intent?.putExtra("id",id)
-                startActivity(intent)
             }
         })
         binding.watchLaterListRecyclerView.adapter = showListAdapter

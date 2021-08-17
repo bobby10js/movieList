@@ -15,8 +15,8 @@ import com.ch.movie.model.TvShow
 class ShowListAdapter(private var thumbNailActions: ThumbNailActions): RecyclerView.Adapter<ShowListAdapter.ViewHolder>() {
 
     companion object{
-        val VIEW_MOVIE_TYPE = 1
-        val VIEW_TV_SHOW_TYPE = 2
+        const val VIEW_MOVIE_TYPE = 1
+        const val VIEW_TV_SHOW_TYPE = 2
 
     }
     private var showList: List<Any> = listOf()

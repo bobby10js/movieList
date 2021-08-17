@@ -8,20 +8,20 @@ import androidx.room.TypeConverters
 import com.ch.movie.model.Movie
 import com.ch.movie.model.TvShow
 
-@Database(entities = [Movie::class ,TvShow::class],version = 1)
+@Database(entities = [Movie::class ,TvShow::class],version = 2)
 @TypeConverters(DbTypeConverters::class)
 abstract class WatchListDatabase: RoomDatabase() {
      abstract fun watchListDao() : WatchListDao
 
      companion object {
-         var instance:WatchListDatabase? = null
+         private var instance:WatchListDatabase? = null
          @Synchronized
          fun getInstance(context: Context): WatchListDatabase {
              if (instance == null) {
                  instance = Room.databaseBuilder(
                      context,
                      WatchListDatabase::class.java, "watch_list_db"
-                 ).build()
+                 ).fallbackToDestructiveMigration().build()
              }
              return instance as WatchListDatabase
          }

@@ -1,9 +1,9 @@
-package com.ch.movie.db;
+package com.ch.movie.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
-import com.ch.movie.model.Movie;
+import com.ch.movie.model.Movie
 import com.ch.movie.model.TvShow
 
 @Dao

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.tvShowDetailedView.TvShowDetailedActivity">
+    tools:context=".ui.ShowListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -91,7 +91,7 @@
                     style="@style/Theme.MovieList.RatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
+                    android:layout_marginBottom="16dp"
                     android:rating="4"
                     android:scaleX="0.8"
                     android:scaleY="0.8"
@@ -107,7 +107,7 @@
 
     <androidx.core.widget.NestedScrollView
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/activity_movie_detailed"
+        tools:showIn="@layout/activity_show_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".ui.tvShowDetailedView.TvShowDetailedActivity">
@@ -120,9 +120,10 @@
 
             <TextView
                 android:id="@+id/overViewTxtView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin" />
+                android:layout_margin="@dimen/text_margin"
+                android:paddingTop="16dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -139,9 +140,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Similar Shows" />
+                android:text="Similar Movies" />
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/similarTvShowsRecyclerView"
+                android:id="@+id/similarMoviesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>

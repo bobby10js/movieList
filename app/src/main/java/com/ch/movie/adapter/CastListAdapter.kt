@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.ch.movie.R
 import com.ch.movie.model.Cast
 
-class CastListAdapter(): RecyclerView.Adapter<CastListAdapter.ViewHolder>() {
+class CastListAdapter : RecyclerView.Adapter<CastListAdapter.ViewHolder>() {
     private var castList: Array<Cast> = arrayOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.inflate_card_cast, parent, false)

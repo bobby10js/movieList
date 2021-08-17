@@ -1,10 +1,7 @@
 package com.ch.movie.db
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import androidx.room.TypeConverter
 import com.ch.movie.model.Genre
-import com.ch.movie.model.Movie
 import com.google.gson.Gson
 import java.util.*
 
