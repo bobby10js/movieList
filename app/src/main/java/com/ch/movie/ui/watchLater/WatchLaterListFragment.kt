@@ -32,24 +32,31 @@ class WatchLaterListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val watchListRepo = com.ch.movie.db.Repository(requireContext())
         val watchLaterViewModel = WatchLaterViewModel(watchListRepo)
-        binding.watchLaterListRecyclerView.layoutManager = GridLayoutManager(context, 3)
-        val showListAdapter =  ShowListAdapter( object : ShowListAdapter.ThumbNailActions {
-            override fun onClick(id: Int,viewType: Int) {
-                 when(viewType){
-                    ShowListAdapter.VIEW_MOVIE_TYPE -> findNavController().navigate(R.id.navigation_movie_detailed, bundleOf("id" to id))
-                    ShowListAdapter.VIEW_TV_SHOW_TYPE -> findNavController().navigate(R.id.navigation_tv_show_detailed, bundleOf("id" to id))
-                }
-            }
-        })
-        binding.watchLaterListRecyclerView.adapter = showListAdapter
 
+        binding.watchLaterListRecyclerView.apply {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter = ShowListAdapter(object : ShowListAdapter.ThumbNailActions {
+                override fun onClick(id: Int, viewType: Int) {
+                    when (viewType) {
+                        ShowListAdapter.VIEW_MOVIE_TYPE -> findNavController().navigate(
+                            R.id.navigation_movie_detailed,
+                            bundleOf("id" to id)
+                        )
+                        ShowListAdapter.VIEW_TV_SHOW_TYPE -> findNavController().navigate(
+                            R.id.navigation_tv_show_detailed,
+                            bundleOf("id" to id)
+                        )
+                    }
+                }
+            })
+        }
         watchLaterViewModel.getAllMovieWatchList().observe(viewLifecycleOwner, { watchLaterMovieList ->
-            showListAdapter.setShowList(  watchLaterMovieList,null)
+            (binding.watchLaterListRecyclerView.adapter as ShowListAdapter).setShowList(  watchLaterMovieList,null)
             Log.i("WatchLaterList:Movie",watchLaterMovieList.size.toString())
         })
 
         watchLaterViewModel.getAllTvShowWatchList().observe(viewLifecycleOwner, { watchLaterTvShowList ->
-            showListAdapter.setShowList(null, watchLaterTvShowList)
+            (binding.watchLaterListRecyclerView.adapter as ShowListAdapter).setShowList(null, watchLaterTvShowList)
             Log.i("WatchLaterList:TV",watchLaterTvShowList.size.toString())
         })
     }

@@ -36,27 +36,32 @@ class TvShowListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val repo = Repository()
-        val viewModelFactory  = ViewModelFactory(TvShowListViewModel(repo))
-        val viewModel: TvShowListViewModel = ViewModelProvider(this,viewModelFactory).get(TvShowListViewModel::class.java)
-        val tvShowListAdapter =  ShowListAdapter( object : ShowListAdapter.ThumbNailActions {
-            override fun onClick(id: Int,viewType: Int) {
-                findNavController().navigate(R.id.navigation_tv_show_detailed, bundleOf("id" to id))
-            }
-        })
-        binding.tvShowListRecyclerView.layoutManager = GridLayoutManager(context, 3)
-        binding.tvShowListRecyclerView.adapter = tvShowListAdapter
+        val viewModelFactory = ViewModelFactory(TvShowListViewModel(repo))
+        val viewModel: TvShowListViewModel =
+            ViewModelProvider(this, viewModelFactory).get(TvShowListViewModel::class.java)
+
+        binding.tvShowListRecyclerView.apply {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter = ShowListAdapter(object : ShowListAdapter.ThumbNailActions {
+                override fun onClick(id: Int, viewType: Int) {
+                    findNavController().navigate(R.id.navigation_tv_show_detailed, bundleOf("id" to id))
+                }
+            })
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1)) {
+                        viewModel.getTopRatedListNextPage()
+                    }
+                }
+            })
+        }
+
         viewModel.getTopRatedListNextPage()
         viewModel.getTvShowList().observe(viewLifecycleOwner, { response ->
-            tvShowListAdapter.setTvShowList(response)
+            (binding.tvShowListRecyclerView.adapter as ShowListAdapter).setTvShowList(response)
         })
 
-        binding.tvShowListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.getTopRatedListNextPage()
-                }
-            }
-        })
     }
 }

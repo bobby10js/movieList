@@ -56,26 +56,29 @@ class TvShowDetailedFragment : Fragment() {
         tvShowDetailedViewModel.setSimilarTvShowDetail(tvShowId)
         tvShowDetailedViewModel.setCastDetails(tvShowId)
 
-        val similarTvShowsListAdapter = ShowListAdapter(object : ShowListAdapter.ThumbNailActions {
-            override fun onClick(id: Int,viewType: Int) {
-                findNavController().navigate(R.id.navigation_tv_show_detailed, bundleOf("id" to id))
-            }
-        })
+        binding.similarTvShowsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = ShowListAdapter(object : ShowListAdapter.ThumbNailActions {
+                override fun onClick(id: Int,viewType: Int) {
+                    findNavController().navigate(R.id.navigation_tv_show_detailed, bundleOf("id" to id))
+                }
+            })
 
-        binding.similarTvShowsRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.similarTvShowsRecyclerView.adapter = similarTvShowsListAdapter
-        tvShowDetailedViewModel.getSimilarTvShowDetails().observe(viewLifecycleOwner, { response ->
-            similarTvShowsListAdapter.setTvShowList(response.results)
-        })
+        }
+        tvShowDetailedViewModel.getSimilarTvShowDetails()
+            .observe(viewLifecycleOwner, { response ->
+                (binding.similarTvShowsRecyclerView.adapter as ShowListAdapter).setTvShowList(response.results)
+            })
         tvShowDetailedViewModel.getTvShowDetail().observe(viewLifecycleOwner, { tvShow ->
             Glide.with(this).load("https://image.tmdb.org/t/p/w500" + tvShow.poster_path).into(binding.posterImageView)
             this.tvShow = tvShow
             binding.title.text = tvShow.name
-            binding.date.text = "${(tvShow.first_air_date?.year?.plus(1900))} · ${tvShow.genres?.joinToString { it.name }} · ${tvShow.episode_run_time?.sum()} min"
+            binding.date.text = "${(tvShow.first_air_date?.year?.plus(1900))} · ${tvShow.genres?.joinToString { it.name.toString() }} · ${tvShow.episode_run_time?.sum()} min"
             binding.ratingTextView.text = tvShow.vote_average.toString()
             binding.overViewTxtView.text = tvShow.overview
-            binding.ratingBar.rating = tvShow.vote_average / 2
+            binding.ratingBar.rating = tvShow.vote_average?.div(2)?:0f
         })
+
 
         binding.fab.setOnClickListener { view ->
 

@@ -56,29 +56,28 @@ class MovieDetailedFragment : Fragment() {
         movieDetailedViewModel.setSimilarMovieDetail(movieId)
         movieDetailedViewModel.setCastDetails(movieId)
 
-        val similarMoviesListAdapter = ShowListAdapter(object : ShowListAdapter.ThumbNailActions {
-            override fun onClick(id: Int,viewType: Int) {
-                findNavController().navigate(R.id.navigation_movie_detailed, bundleOf("id" to id))
-            }
-        })
-
-        binding.similarMoviesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.similarMoviesRecyclerView.adapter = similarMoviesListAdapter
+        binding.similarMoviesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = ShowListAdapter(object : ShowListAdapter.ThumbNailActions {
+                override fun onClick(id: Int,viewType: Int) {
+                    findNavController().navigate(R.id.navigation_movie_detailed, bundleOf("id" to id))
+                }
+            })
+        }
         movieDetailedViewModel.getSimilarMovieDetails().observe(viewLifecycleOwner, { response ->
-            similarMoviesListAdapter.setMovieList(response.results)
+            (binding.similarMoviesRecyclerView.adapter as ShowListAdapter).setMovieList(response.results)
         })
         movieDetailedViewModel.getMovieDetails().observe(viewLifecycleOwner, { movie ->
             Glide.with(this).load("https://image.tmdb.org/t/p/w500" + movie.poster_path).into(binding.posterImageView)
             this.movie = movie
             binding.title.text = movie.title
-            binding.date.text = "${(this.movie.release_date.year.plus(1900))} · ${this.movie.genres.joinToString { it.name }} · ${this.movie.runtime} min"
+            binding.date.text = "${(this.movie.release_date?.year?.plus(1900))} · ${this.movie.genres?.joinToString { it.name.toString() }} · ${this.movie.runtime} min"
             binding.ratingTextView.text = movie.vote_average.toString()
             binding.overViewTxtView.text = movie.overview
-            binding.ratingBar.rating = movie.vote_average / 2
+            binding.ratingBar.rating = movie.vote_average?.div(2)?:0f
         })
 
         binding.fab.setOnClickListener { view ->
-
             when {
                 isAddedToWatchLater == null -> {
                     Snackbar.make(view, "Wait", Snackbar.LENGTH_LONG).setAction("Action", null).show()

@@ -38,25 +38,28 @@ class MovieListFragment : Fragment() {
         val repo = Repository()
         val viewModelFactory  = ViewModelFactory(MovieListViewModel(repo) )
         val viewModel: MovieListViewModel = ViewModelProvider(this,viewModelFactory).get(MovieListViewModel::class.java)
-        val movieListAdapter =  ShowListAdapter( object : ShowListAdapter.ThumbNailActions {
-            override fun onClick(id: Int,viewType: Int) {
-                findNavController().navigate(R.id.navigation_movie_detailed, bundleOf("id" to id))
-            }
-        })
-        binding.movieListRecyclerView.layoutManager = GridLayoutManager(context, 3)
-        binding.movieListRecyclerView.adapter = movieListAdapter
+
+        binding.movieListRecyclerView.apply {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter =  ShowListAdapter( object : ShowListAdapter.ThumbNailActions {
+                override fun onClick(id: Int,viewType: Int) {
+                    findNavController().navigate(R.id.navigation_movie_detailed, bundleOf("id" to id))
+                }
+            })
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1)) {
+                        viewModel.getTopRatedListNextPage()
+                    }
+                }
+            })
+        }
+
         viewModel.getTopRatedListNextPage()
         viewModel.getMovieList().observe(viewLifecycleOwner, { response ->
-            movieListAdapter.setMovieList(response)
+            (binding.movieListRecyclerView.adapter as ShowListAdapter).setMovieList(response)
         })
 
-        binding.movieListRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.getTopRatedListNextPage()
-                }
-            }
-        })
     }
 }

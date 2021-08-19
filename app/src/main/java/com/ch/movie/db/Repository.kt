@@ -12,7 +12,6 @@ class Repository(var context:Context) {
             watchListDao = watchListDatabase.watchListDao()
         }
 
-
     suspend fun insert(movie: Movie) = watchListDao.insert(movie)
     suspend fun update(movie: Movie) = watchListDao.update(movie)
     suspend fun delete(movie: Movie) = watchListDao.delete(movie)
