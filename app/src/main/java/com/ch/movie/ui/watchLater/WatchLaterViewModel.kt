@@ -5,9 +5,12 @@ import com.ch.movie.db.Repository
 import com.ch.movie.model.Movie
 import com.ch.movie.model.TvShow
 import com.google.android.material.slider.Slider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.launch
-
-class WatchLaterViewModel(private var watchListRepo: Repository) :ViewModel() {
+import javax.inject.Inject
+@HiltViewModel
+class WatchLaterViewModel  @Inject constructor( private var watchListRepo: Repository) :ViewModel() {
 
 
     fun addToWatchLater(movie:Movie){

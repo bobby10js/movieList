@@ -13,12 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.ch.movie.adapter.CastListAdapter
 import com.ch.movie.adapter.ShowListAdapter
-import com.ch.movie.api.Repository
 import com.ch.movie.databinding.FragmentMovieDetailedBinding
 import com.ch.movie.model.Movie
 import com.ch.movie.ui.watchLater.WatchLaterViewModel
-import com.ch.movie.util.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelStoreOwner
+import com.ch.movie.ui.movieList.MovieListViewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class MovieDetailedFragment : Fragment() {
     private var movieId:Int = 0
@@ -47,11 +51,9 @@ class MovieDetailedFragment : Fragment() {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val repository = Repository()
-        val watchListRepo = com.ch.movie.db.Repository(requireContext())
-        val viewModelFactory  = ViewModelFactory( MovieDetailedViewModel(repository))
-        val movieDetailedViewModel = ViewModelProvider(this,viewModelFactory).get( MovieDetailedViewModel::class.java)
-        val watchLaterViewModel = WatchLaterViewModel(watchListRepo)
+        val watchLaterViewModel = ViewModelProvider(this).get(WatchLaterViewModel::class.java)
+        val movieDetailedViewModel = ViewModelProvider(this).get(MovieDetailedViewModel::class.java)
+
         movieDetailedViewModel.setDetail(movieId)
         movieDetailedViewModel.setSimilarMovieDetail(movieId)
         movieDetailedViewModel.setCastDetails(movieId)

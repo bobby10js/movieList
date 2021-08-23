@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ch.movie.R
@@ -13,12 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.ch.movie.adapter.CastListAdapter
 import com.ch.movie.adapter.ShowListAdapter
-import com.ch.movie.api.Repository
 import com.ch.movie.databinding.FragmentTvShowDetailedBinding
 import com.ch.movie.model.TvShow
+import com.ch.movie.ui.movieList.MovieListViewModel
 import com.ch.movie.ui.watchLater.WatchLaterViewModel
-import com.ch.movie.util.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class TvShowDetailedFragment : Fragment() {
     private var tvShowId:Int = 0
@@ -27,6 +30,7 @@ class TvShowDetailedFragment : Fragment() {
 
     private  var _binding: FragmentTvShowDetailedBinding?=null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,11 +51,10 @@ class TvShowDetailedFragment : Fragment() {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val repository = Repository()
-        val watchListRepo = com.ch.movie.db.Repository(requireContext())
-        val viewModelFactory  = ViewModelFactory( TvShowDetailedViewModel(repository))
-        val tvShowDetailedViewModel = ViewModelProvider(this,viewModelFactory).get(TvShowDetailedViewModel::class.java)
-        val watchLaterViewModel = WatchLaterViewModel(watchListRepo)
+
+        val watchLaterViewModel = ViewModelProvider(this).get(WatchLaterViewModel::class.java)
+        val tvShowDetailedViewModel = ViewModelProvider(this).get(TvShowDetailedViewModel::class.java)
+
         tvShowDetailedViewModel.setDetail(tvShowId)
         tvShowDetailedViewModel.setSimilarTvShowDetail(tvShowId)
         tvShowDetailedViewModel.setCastDetails(tvShowId)

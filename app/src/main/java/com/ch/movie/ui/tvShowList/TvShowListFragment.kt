@@ -6,15 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.movie.R
 import com.ch.movie.adapter.ShowListAdapter
-import com.ch.movie.api.Repository
 import com.ch.movie.databinding.FragmentTvShowListBinding
-import com.ch.movie.util.ViewModelFactory
+import com.ch.movie.ui.tvShowDetailedView.TvShowDetailedViewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class TvShowListFragment : Fragment() {
 
@@ -35,10 +38,7 @@ class TvShowListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val repo = Repository()
-        val viewModelFactory = ViewModelFactory(TvShowListViewModel(repo))
-        val viewModel: TvShowListViewModel =
-            ViewModelProvider(this, viewModelFactory).get(TvShowListViewModel::class.java)
+        val tvShowListViewModel = ViewModelProvider(this).get(TvShowListViewModel::class.java)
 
         binding.tvShowListRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
@@ -52,14 +52,14 @@ class TvShowListFragment : Fragment() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (!recyclerView.canScrollVertically(1)) {
-                        viewModel.getTopRatedListNextPage()
+                        tvShowListViewModel.getTopRatedListNextPage()
                     }
                 }
             })
         }
 
-        viewModel.getTopRatedListNextPage()
-        viewModel.getTvShowList().observe(viewLifecycleOwner, { response ->
+        tvShowListViewModel.getTopRatedListNextPage()
+        tvShowListViewModel.getTvShowList().observe(viewLifecycleOwner, { response ->
             (binding.tvShowListRecyclerView.adapter as ShowListAdapter).setTvShowList(response)
         })
 

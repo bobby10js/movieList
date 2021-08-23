@@ -8,12 +8,14 @@ import com.ch.movie.api.Repository
 import com.ch.movie.model.Casts
 import com.ch.movie.model.Movie
 import com.ch.movie.model.Movies
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class MovieDetailedViewModel(
-    private val repository: Repository,
-) : ViewModel() {
+
+@HiltViewModel
+class MovieDetailedViewModel @Inject  constructor(private val repository: Repository, ) : ViewModel() {
 
     private val movieDetails: MutableLiveData<Movie> = MutableLiveData()
     private val similarMovieDetails: MutableLiveData<Movies> = MutableLiveData()

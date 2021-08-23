@@ -8,10 +8,11 @@ import com.ch.movie.model.Movies
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import com.ch.movie.util.ExtensionFunctions.append
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+@HiltViewModel
 
-class MovieListViewModel(private val repository: Repository) : ViewModel() {
+class MovieListViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
     private var pageNumber = 0
     private var movieList : MutableLiveData<Array<Movie>> = MutableLiveData()
 

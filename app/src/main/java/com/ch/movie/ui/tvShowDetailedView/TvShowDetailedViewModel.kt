@@ -6,10 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ch.movie.api.Repository
 import com.ch.movie.model.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class TvShowDetailedViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+
+class TvShowDetailedViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     private val tvShowDetails: MutableLiveData<TvShow> = MutableLiveData()
     private val similarTvShowDetails: MutableLiveData<TvShows> = MutableLiveData()

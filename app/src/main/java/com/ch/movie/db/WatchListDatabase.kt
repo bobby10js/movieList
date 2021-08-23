@@ -12,7 +12,6 @@ import com.ch.movie.model.TvShow
 @TypeConverters(DbTypeConverters::class)
 abstract class WatchListDatabase: RoomDatabase() {
      abstract fun watchListDao() : WatchListDao
-
      companion object {
          private var instance:WatchListDatabase? = null
          @Synchronized

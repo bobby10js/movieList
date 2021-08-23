@@ -8,8 +8,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.ch.movie.R
 import com.ch.movie.databinding.ActivityShowListBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ShowListActivity : AppCompatActivity() {
     lateinit var navView : BottomNavigationView
     private lateinit var binding: ActivityShowListBinding

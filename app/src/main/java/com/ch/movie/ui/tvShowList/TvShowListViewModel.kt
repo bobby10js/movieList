@@ -10,8 +10,12 @@ import com.ch.movie.model.TvShows
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import com.ch.movie.util.ExtensionFunctions.append
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TvShowListViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+
+class TvShowListViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
     private var pageNumber = 0
     private val tvShowList : MutableLiveData<Array<TvShow>> = MutableLiveData()
 

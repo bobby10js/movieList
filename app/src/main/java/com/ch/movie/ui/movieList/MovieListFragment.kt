@@ -6,15 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ch.movie.R
 import com.ch.movie.adapter.ShowListAdapter
-import com.ch.movie.api.Repository
 import com.ch.movie.databinding.FragmentMovieListBinding
-import com.ch.movie.util.ViewModelFactory
+import com.ch.movie.ui.movieDetailedView.MovieDetailedViewModel
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 
 class MovieListFragment : Fragment() {
 
@@ -35,9 +38,7 @@ class MovieListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val repo = Repository()
-        val viewModelFactory  = ViewModelFactory(MovieListViewModel(repo) )
-        val viewModel: MovieListViewModel = ViewModelProvider(this,viewModelFactory).get(MovieListViewModel::class.java)
+        val movieListViewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
 
         binding.movieListRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
@@ -50,14 +51,14 @@ class MovieListFragment : Fragment() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                     if (!recyclerView.canScrollVertically(1)) {
-                        viewModel.getTopRatedListNextPage()
+                        movieListViewModel.getTopRatedListNextPage()
                     }
                 }
             })
         }
 
-        viewModel.getTopRatedListNextPage()
-        viewModel.getMovieList().observe(viewLifecycleOwner, { response ->
+        movieListViewModel.getTopRatedListNextPage()
+        movieListViewModel.getMovieList().observe(viewLifecycleOwner, { response ->
             (binding.movieListRecyclerView.adapter as ShowListAdapter).setMovieList(response)
         })
 
