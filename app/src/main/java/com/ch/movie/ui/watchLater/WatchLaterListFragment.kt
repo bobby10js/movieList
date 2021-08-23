@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ch.movie.R
 import com.ch.movie.adapter.ShowListAdapter
 import com.ch.movie.databinding.FragmentWatchLaterListBinding
 import com.ch.movie.ui.tvShowDetailedView.TvShowDetailedViewModel
+import com.ch.movie.ui.tvShowList.TvShowListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,6 +24,7 @@ class WatchLaterListFragment : Fragment() {
 
     private  var _binding: FragmentWatchLaterListBinding?=null
     private val binding get() = _binding!!
+    private val watchLaterViewModel : WatchLaterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +37,6 @@ class WatchLaterListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val watchLaterViewModel = ViewModelProvider(this).get(WatchLaterViewModel::class.java)
 
         binding.watchLaterListRecyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)

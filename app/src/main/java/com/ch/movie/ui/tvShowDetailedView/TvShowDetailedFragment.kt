@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ch.movie.R
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +26,8 @@ class TvShowDetailedFragment : Fragment() {
     private var tvShowId:Int = 0
     lateinit var tvShow: TvShow
     private var isAddedToWatchLater:Boolean? =null
+    private val watchLaterViewModel :WatchLaterViewModel by viewModels()
+    private val tvShowDetailedViewModel :TvShowDetailedViewModel by viewModels()
 
     private  var _binding: FragmentTvShowDetailedBinding?=null
     private val binding get() = _binding!!
@@ -51,9 +52,6 @@ class TvShowDetailedFragment : Fragment() {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        val watchLaterViewModel = ViewModelProvider(this).get(WatchLaterViewModel::class.java)
-        val tvShowDetailedViewModel = ViewModelProvider(this).get(TvShowDetailedViewModel::class.java)
 
         tvShowDetailedViewModel.setDetail(tvShowId)
         tvShowDetailedViewModel.setSimilarTvShowDetail(tvShowId)
